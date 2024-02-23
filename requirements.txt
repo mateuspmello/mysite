@@ -1,3 +1,4 @@
-Django>=>5
-python-decouple
-psycopg2
+Django==5.0.2
+python-decouple==3.8
+psycopg
+django-nose
