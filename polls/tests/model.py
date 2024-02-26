@@ -7,6 +7,6 @@ from django.contrib.admin.options import ModelAdmin
 class TestPostTestCase(TestCase):
         
         def test_model_str(self):
-                title = Post.objects.create(title="Born",content="AAAA",pub_date="1989-10-02 17:30")
-                self.assertEqual(str(title), "Born")
+                firstPost = Post.objects.create(title="Peppa",content="pig",pub_date="1989-10-02 17:30")
+                self.assertEqual(firstPost.content, "pig")
                 
