@@ -8,10 +8,4 @@ cleanup:
 	docker-compose down
 
 check: build
-	docker-compose -p tests run mysite python manage.py test 
-
-cov: build
-	docker-compose -p tests run mysite python manage.py test --with-coverage
-	
-shell: build
-	docker-compose -p tests run mysite python manage.py shell 
+	docker-compose -p tests run mysite python3 manage.py test 
