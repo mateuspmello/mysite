@@ -10,12 +10,23 @@ You should have docker installed to run the project
 ## How to run locally
 
 ```
-docker-compose build
-docker-compose up
+make run
 ```
 
 ## How to test
 
 ```
-python3 manage.py test
+make check
+```
+
+## How to check test coverage
+
+```
+make cov
+```
+
+## How to clean up containers
+
+```
+make cleanup
 ```
