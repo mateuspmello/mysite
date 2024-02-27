@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.template import loader
 from django.core import serializers
-from .models import Post
+from .models import *
 
 def index(request):
     template = loader.get_template("index.html")
@@ -9,5 +9,10 @@ def index(request):
 
 def posts(request):
     posts = Post.objects.all()
+    data = serializers.serialize('json', posts)
+    return HttpResponse(data)
+
+def authors(request):
+    posts = Author.objects.all()
     data = serializers.serialize('json', posts)
     return HttpResponse(data)
