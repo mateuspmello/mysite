@@ -18,3 +18,11 @@ class TestModels(TestCase):
         def test_create_author(self):
                 firstAuthor = Author.objects.create(name="José Buendia", email="joseb@gmail.com")
                 self.assertEqual(firstAuthor.name, "José Buendia")
+
+        def test_getPostsJSON(self):
+                a = Author(name="José Buendia", email="joseb@gmail.com")
+                a.save()
+                p = Post.objects.create(title="Vai", content="pra casa", pub_date="2024-02-27 09:48", author=a)
+                allPostsJSON = p.getPostsJSON()
+                allPostsDict = json.loads(allPostsJSON)
+                self.assertEqual(allPostsDict[0]["author_name"], "José Buendia")
