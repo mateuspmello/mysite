@@ -3,3 +3,4 @@ python-decouple==3.8
 psycopg
 django-nose
 coverage
+djangorestframework
