@@ -1,9 +1,5 @@
 version: '3'
 
-networks:
-    kong-net:
-      driver: bridge
-
 services:
   mysite:
     build: 
@@ -14,8 +10,8 @@ services:
     restart: always
     volumes:
       - .:/app
-    ports:
-      - "8089:8089"
+    expose:
+      - "8089"
     env_file:
       - .env
     depends_on:
@@ -40,8 +36,6 @@ services:
   kong:
     image: kong_nodb
     container_name: kong_nodb
-    networks:
-      - kong-net
     environment:
       KONG_DATABASE: "off"
       KONG_DECLARATIVE_CONFIG: kong.yml

@@ -1,18 +1,9 @@
 _format_version: "3.0"
 services:
   - name: blog
-    host: localhost
+    host: mysite
     port: 8089
     routes:
     - name: blog
       paths:
         - /blog
-  - name: example_service
-    host: httpbin.org
-    port: 80
-    protocol: http
-    routes:
-    - name: example_route
-      paths:
-      - /mock
-      strip_path: true
