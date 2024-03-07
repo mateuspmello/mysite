@@ -1,5 +1,4 @@
 version: '3'
-
 services:
   mysite:
     build: 
@@ -39,7 +38,7 @@ services:
     environment:
       KONG_DATABASE: "off"
       KONG_DECLARATIVE_CONFIG: kong.yml
-      KONG_ADMIN_GUI_URL: http://localhost:8002
+      KONG_ADMIN_GUI_URL: 0.0.0.0:8002
       KONG_ADMIN_LISTEN: 0.0.0.0:8001
     healthcheck:
       test: ["CMD", "curl", "-f", "http://kong:8000"]
