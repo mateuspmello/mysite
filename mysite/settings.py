@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_nose',
+    'rest_framework',
     'polls',
 ]
 
@@ -51,6 +52,7 @@ NOSE_ARGS = [
     '--with-coverage',
     '--cover-package=polls',
     '--cover-html',
+    '--cover-erase',
 ]
 
 MIDDLEWARE = [
