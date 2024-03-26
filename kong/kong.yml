@@ -1,9 +1,12 @@
 _format_version: "3.0"
 services:
-  - name: blog
-    host: mysite
+  - name: gateway
+    host: gateway
     port: 8089
     routes:
     - name: blog
       paths:
         - /blog
+    - name: auth
+      paths:
+        - /gateway

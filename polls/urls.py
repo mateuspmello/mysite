@@ -8,6 +8,8 @@ router.register(r'authors', views.AuthorViewSet)
 
 urlpatterns = [
     path('', views.index, name="index"),
+    path('auth', views.get_token, name="auth"),
+    path('auth/validate', views.validate_token, name="auth-validate"),
     path('', include(router.urls)),
 ]
 

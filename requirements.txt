@@ -4,3 +4,4 @@ psycopg
 django-nose
 coverage
 djangorestframework
+requests

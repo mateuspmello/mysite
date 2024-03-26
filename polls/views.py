@@ -1,13 +1,55 @@
 from django.http import HttpResponse
 from django.template import loader
+import requests
 from polls.serializers import PostSerializer, AuthorSerializer
 from .models import *
 from rest_framework import viewsets
+from django.views.decorators.csrf import csrf_exempt
 
 
 def index(request):
     template = loader.get_template("index.html")
     return HttpResponse(template.render())
+
+@csrf_exempt
+def get_token(request):
+    keycloak_host = '192.168.0.46:8080'
+    realm = 'myrealm'
+    client_id = request.META.get('HTTP_CLIENT_ID')
+    client_secret = request.META.get('HTTP_CLIENT_SECRET')
+    username = request.META.get('HTTP_USERNAME')
+    password = request.META.get('HTTP_PASSWORD')
+
+    token_url = 'http://{keycloak_host}/realms/{realm}/protocol/openid-connect/token'
+    headers = {'Content-Type': 'application/x-www-form-urlencoded'}
+    data = {
+        'grant_type': 'client_credentials',
+        'client_id': client_id,
+        'client_secret': client_secret,
+        'username': username,
+        'password': password
+    }
+    response = requests.post(token_url.format(realm=realm, keycloak_host=keycloak_host), headers=headers, data=data)
+    response.raise_for_status()
+    return HttpResponse(response.json()['access_token'])
+
+@csrf_exempt
+def validate_token(request):
+    keycloak_host = '192.168.0.46:8080'
+    realm = 'myrealm'
+    introspect_url = 'http://{keycloak_host}/realms/{realm}/protocol/openid-connect/token/introspect'
+    client_id = request.META.get('HTTP_CLIENT_ID')
+    client_secret = request.META.get('HTTP_CLIENT_SECRET')
+    access_token = request.META.get('HTTP_AUTHORIZATION').replace('Bearer ', '')
+    headers = {'Content-Type': 'application/x-www-form-urlencoded'}
+    data = {
+        'token': access_token,
+        'client_id': client_id,
+        'client_secret': client_secret
+    }
+    response = requests.post(introspect_url.format(realm=realm, keycloak_host=keycloak_host), headers=headers, data=data)
+    response.raise_for_status()
+    return HttpResponse(response.json())
 
 class AuthorViewSet(viewsets.ModelViewSet):
     queryset = Author.objects.all()
