@@ -1,4 +1,6 @@
 build:
+	docker network create kong-net || true
+	docker build -t kong_nodb ./kong
 	docker-compose build
 
 run: build
