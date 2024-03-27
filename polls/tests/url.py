@@ -40,3 +40,4 @@ class CallIndex(TestCase):
                 self.assertEqual(actual, expected_content)
                 self.assertEqual(response.status_code, 200)
                 
+        
