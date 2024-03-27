@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.template import loader
 import requests
 from polls.serializers import PostSerializer, AuthorSerializer
@@ -15,22 +15,26 @@ def index(request):
 def get_token(request):
     keycloak_host = '192.168.0.46:8080'
     realm = 'myrealm'
+    grant_type = request.META.get('HTTP_GRANT_TYPE')
     client_id = request.META.get('HTTP_CLIENT_ID')
     client_secret = request.META.get('HTTP_CLIENT_SECRET')
     username = request.META.get('HTTP_USERNAME')
     password = request.META.get('HTTP_PASSWORD')
-
+    print(grant_type, client_id, client_secret, username, password)
     token_url = 'http://{keycloak_host}/realms/{realm}/protocol/openid-connect/token'
     headers = {'Content-Type': 'application/x-www-form-urlencoded'}
     data = {
-        'grant_type': 'client_credentials',
+        'grant_type': grant_type,
         'client_id': client_id,
         'client_secret': client_secret,
         'username': username,
         'password': password
     }
     response = requests.post(token_url.format(realm=realm, keycloak_host=keycloak_host), headers=headers, data=data)
-    response.raise_for_status()
+    
+    if response.status_code == requests.codes.unauthorized:
+        return JsonResponse({'error': 'Invalid credentials'}, status=response.status_code)
+    
     return HttpResponse(response.json()['access_token'])
 
 @csrf_exempt
@@ -60,3 +64,5 @@ class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     http_method_names = ['get','post','retrieve','put','patch']
+
+
