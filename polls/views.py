@@ -13,7 +13,7 @@ def index(request):
 
 @csrf_exempt
 def get_token(request):
-    keycloak_host = '192.168.0.46:8080'
+    keycloak_host = 'keycloak:8080'
     realm = 'myrealm'
     grant_type = request.META.get('HTTP_GRANT_TYPE')
     client_id = request.META.get('HTTP_CLIENT_ID')
@@ -39,7 +39,7 @@ def get_token(request):
 
 @csrf_exempt
 def validate_token(request):
-    keycloak_host = '192.168.0.46:8080'
+    keycloak_host = 'keycloak:8080'
     realm = 'myrealm'
     introspect_url = 'http://{keycloak_host}/realms/{realm}/protocol/openid-connect/token/introspect'
     client_id = request.META.get('HTTP_CLIENT_ID')
